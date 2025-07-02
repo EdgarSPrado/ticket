@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tickets Profesional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2F5DFF;
+            --primary-dark: #1a4be6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --urgent: #ff6b6b;
+            --dark: #343a40;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --border: #e0e6ed;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            padding: 20px;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .page-title i {
+            color: var(--primary);
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        /* Tickets Section */
+        .tickets-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .tickets-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        
+        .tickets-count {
+            font-size: 16px;
+            color: var(--gray);
+        }
+        
+        .sort-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .sort-select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 14px;
+            min-width: 180px;
+            cursor: pointer;
+        }
+        
+        /* Tickets Container */
+        .tickets-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .ticket-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .ticket-card:hover {
+            box-shadow: 0 5px 15px rgba(47, 93, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .ticket-id {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .ticket-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .ticket-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ticket-requester {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .requester-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2F5DFF, #1a4be6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        
+        .requester-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .requester-name {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--dark);
+        }
+        
+        .requester-time {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .ticket-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .status-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Custom Selects */
+        .custom-select {
+            position: relative;
+            min-width: 110px;
+        }
+        
+        .custom-select select {
+            width: 100%;
+            padding: 8px 30px 8px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 13px;
+            font-weight: 500;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .custom-select::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--gray);
+            font-size: 11px;
+        }
+        
+        .custom-select select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(47, 93, 255, 0.2);
+        }
+        
+        /* Status colors */
+        .status-open select {
+            color: var(--success);
+            border-color: rgba(40, 167, 69, 0.3);
+            background: rgba(40, 167, 69, 0.08);
+        }
+        
+        .status-resolved select {
+            color: var(--primary);
+            border-color: rgba(47, 93, 255, 0.3);
+            background: rgba(47, 93, 255, 0.08);
+        }
+        
+        .status-closed select {
+            color: var(--danger);
+            border-color: rgba(220, 53, 69, 0.3);
+            background: rgba(220, 53, 69, 0.08);
+        }
+        
+        /* Priority colors */
+        .priority-urgent select {
+            color: var(--urgent);
+            border-color: rgba(255, 107, 107, 0.3);
+            background: rgba(255, 107, 107, 0.08);
+        }
+        
+        .priority-high select {
+            color: var(--danger);
+            border-color: rgba(220, 53, 69, 0.3);
+            background: rgba(220, 53, 69, 0.08);
+        }
+        
+        .priority-medium select {
+            color: var(--warning);
+            border-color: rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.08);
+        }
+        
+        .priority-low select {
+            color: var(--success);
+            border-color: rgba(40, 167, 69, 0.3);
+            background: rgba(40, 167, 69, 0.08);
+        }
+        
+        /* Production select */
+        .production-select select {
+            color: #6c5ce7;
+            border-color: rgba(108, 92, 231, 0.3);
+            background: rgba(108, 92, 231, 0.08);
+        }
+        
+        .overdue-badge {
+            background: rgba(220, 53, 69, 0.15);
+            color: var(--danger);
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+        
+        /* Filters Section */
+        .filters-section {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .filters-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .filters-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filters-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .filter-group {
+            margin-bottom: 25px;
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .apply-container {
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+        
+        .apply-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .apply-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-shrink: 0;
+        }
+        
+        .pagination-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination-btn.active, .pagination-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            
+            .filters-section {
+                width: 100%;
+                height: auto;
+            }
+            
+            .filters-container {
+                height: auto;
+            }
+            
+            .ticket-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .ticket-status {
+                align-items: flex-start;
+                width: 100%;
+            }
+            
+            .status-row {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="page-title"><i class="fas fa-ticket-alt"></i> Todos los Tickets</h1>
+        </div>
+        
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Tickets Section -->
+            <div class="tickets-section">
+                <div class="tickets-header">
+                    <div class="tickets-count">Mostrando 2 tickets (de 45 totales)</div>
+                    <div class="sort-filter">
+                        <select class="sort-select">
+                            <option>Ordenar por: Fecha de creación</option>
+                            <option>Ordenar por: Prioridad</option>
+                            <option>Ordenar por: Vencimiento</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Tickets Container with Scroll -->
+                <div class="tickets-container">
+                    <!-- Ticket 1 -->
+                    <div class="ticket-card" onclick="redirectToTicket('TKT-7845')">
+                        <div class="ticket-id">#TKT-7845</div>
+                        <h3 class="ticket-title">Error en el proceso de facturación al finalizar el mes</h3>
+                        
+                        <div class="ticket-meta">
+                            <div class="ticket-requester">
+                                <div class="requester-avatar">MC</div>
+                                <div class="requester-info">
+                                    <span class="requester-name">María Cortez</span>
+                                    <span class="requester-time">Creado hace 3 horas</span>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-status">
+                                <span class="overdue-badge">
+                                    <i class="fas fa-clock"></i> Vencido hace 15 minutos
+                                </span>
+                                
+                                <div class="status-row">
+                                    <div class="custom-select status-open">
+                                        <select>
+                                            <option>Abierto</option>
+                                            <option>Resuelto</option>
+                                            <option>Cerrado</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select priority-urgent">
+                                        <select>
+                                            <option>Urgente</option>
+                                            <option>Alta</option>
+                                            <option>Media</option>
+                                            <option>Baja</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select production-select">
+                                        <select>
+                                            <option>Producción</option>
+                                            <option>Línea A</option>
+                                            <option>Línea B</option>
+                                            <option>Control Calidad</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ticket 2 -->
+                    <div class="ticket-card">
+                        <div class="ticket-id">#TKT-7842</div>
+                        <h3 class="ticket-title">Solicitud de actualización de datos del cliente en CRM</h3>
+                        
+                        <div class="ticket-meta">
+                            <div class="ticket-requester">
+                                <div class="requester-avatar">JP</div>
+                                <div class="requester-info">
+                                    <span class="requester-name">Juan Pérez</span>
+                                    <span class="requester-time">Creado hace 1 día</span>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-status">
+                                <div class="status-row">
+                                    <div class="custom-select status-resolved">
+                                        <select>
+                                            <option>Abierto</option>
+                                            <option selected>Resuelto</option>
+                                            <option>Cerrado</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select priority-low">
+                                        <select>
+                                            <option>Urgente</option>
+                                            <option>Alta</option>
+                                            <option>Media</option>
+                                            <option selected>Baja</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select production-select">
+                                        <select>
+                                            <option>Producción</option>
+                                            <option selected>Línea A</option>
+                                            <option>Línea B</option>
+                                            <option>Control Calidad</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional tickets to demonstrate scroll -->
+                    <div class="ticket-card">
+                        <div class="ticket-id">#TKT-7839</div>
+                        <h3 class="ticket-title">Problema de conexión con la base de datos principal</h3>
+                        
+                        <div class="ticket-meta">
+                            <div class="ticket-requester">
+                                <div class="requester-avatar">AG</div>
+                                <div class="requester-info">
+                                    <span class="requester-name">Ana Gómez</span>
+                                    <span class="requester-time">Creado hace 2 días</span>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-status">
+                                <div class="status-row">
+                                    <div class="custom-select status-open">
+                                        <select>
+                                            <option selected>Abierto</option>
+                                            <option>Resuelto</option>
+                                            <option>Cerrado</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select priority-high">
+                                        <select>
+                                            <option>Urgente</option>
+                                            <option selected>Alta</option>
+                                            <option>Media</option>
+                                            <option>Baja</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select production-select">
+                                        <select>
+                                            <option>Producción</option>
+                                            <option>Línea A</option>
+                                            <option selected>Línea C</option>
+                                            <option>Control Calidad</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ticket-card">
+                        <div class="ticket-id">#TKT-7835</div>
+                        <h3 class="ticket-title">Actualización requerida para el sistema de reportes</h3>
+                        
+                        <div class="ticket-meta">
+                            <div class="ticket-requester">
+                                <div class="requester-avatar">PT</div>
+                                <div class="requester-info">
+                                    <span class="requester-name">Pedro Torres</span>
+                                    <span class="requester-time">Creado hace 3 días</span>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-status">
+                                <div class="status-row">
+                                    <div class="custom-select status-pending">
+                                        <select>
+                                            <option>Abierto</option>
+                                            <option>Resuelto</option>
+                                            <option selected>Cerrado</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select priority-medium">
+                                        <select>
+                                            <option>Urgente</option>
+                                            <option>Alta</option>
+                                            <option selected>Media</option>
+                                            <option>Baja</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="custom-select production-select">
+                                        <select>
+                                            <option selected>Producción</option>
+                                            <option>Línea A</option>
+                                            <option>Línea B</option>
+                                            <option>Control Calidad</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-btn"><i class="fas fa-chevron-left"></i></div>
+                    <div class="pagination-btn active">1</div>
+                    <div class="pagination-btn">2</div>
+                    <div class="pagination-btn">3</div>
+                    <div class="pagination-btn">4</div>
+                    <div class="pagination-btn">5</div>
+                    <div class="pagination-btn"><i class="fas fa-ellipsis"></i></div>
+                    <div class="pagination-btn">12</div>
+                    <div class="pagination-btn"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            
+            <!-- Filters Section with Fixed Apply Button -->
+            <div class="filters-section">
+                <div class="filters-container">
+                    <h2 class="filters-title"><i class="fas fa-filter"></i> Filtros</h2>
+                    
+                    <div class="filters-content">
+                        <!-- Estado -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-tag"></i> Estado</label>
+                            <select class="filter-select">
+                                <option>Todos los estados</option>
+                                <option>Abierto</option>
+                                <option>Resuelto</option>
+                                <option>Cerrado</option>
+                                <option>En progreso</option>
+                                <option>Pendiente</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Prioridad -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-exclamation-circle"></i> Prioridad</label>
+                            <select class="filter-select">
+                                <option>Todas las prioridades</option>
+                                <option>Urgente</option>
+                                <option>Alta</option>
+                                <option>Media</option>
+                                <option>Baja</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Agente Asignado -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-user"></i> Agente Asignado</label>
+                            <select class="filter-select">
+                                <option>Todos los agentes</option>
+                                <option>Carlos Rodríguez</option>
+                                <option>Laura Martínez</option>
+                                <option>Pedro Sánchez</option>
+                                <option>Ana García</option>
+                                <option>Miguel Torres</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Departamento -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-building"></i> Departamento</label>
+                            <select class="filter-select">
+                                <option>Todos los departamentos</option>
+                                <option>Soporte Técnico</option>
+                                <option>Ventas</option>
+                                <option>Facturación</option>
+                                <option>Recursos Humanos</option>
+                                <option>Desarrollo</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Producción -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-industry"></i> Producción</label>
+                            <select class="filter-select">
+                                <option>Todas las áreas</option>
+                                <option>Línea A</option>
+                                <option>Línea B</option>
+                                <option>Línea C</option>
+                                <option>Control de Calidad</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Categoría -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-folder"></i> Categoría</label>
+                            <select class="filter-select">
+                                <option>Todas las categorías</option>
+                                <option>Problema Técnico</option>
+                                <option>Solicitud de Función</option>
+                                <option>Consulta</option>
+                                <option>Incidente</option>
+                                <option>Mejora</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Etiquetas -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-tags"></i> Etiquetas</label>
+                            <select class="filter-select">
+                                <option>Todas las etiquetas</option>
+                                <option>Crítico</option>
+                                <option>VIP</option>
+                                <option>Recurrente</option>
+                                <option>Nuevo cliente</option>
+                                <option>Feedback</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Fecha -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-calendar"></i> Fecha de creación</label>
+                            <select class="filter-select">
+                                <option>Cualquier fecha</option>
+                                <option>Hoy</option>
+                                <option>Ayer</option>
+                                <option>Últimos 7 días</option>
+                                <option>Este mes</option>
+                                <option>Personalizado</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Tipo de ticket -->
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fas fa-ticket"></i> Tipo de ticket</label>
+                            <select class="filter-select">
+                                <option>Todos los tipos</option>
+                                <option>Incidente</option>
+                                <option>Problema</option>
+                                <option>Solicitud de servicio</option>
+                                <option>Pregunta</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Fixed Apply Button Container -->
+                    <div class="apply-container">
+                        <button class="apply-btn">
+                            <i class="fas fa-check"></i> Aplicar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simular aplicación de filtros
+        document.querySelector('.apply-btn').addEventListener('click', function() {
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aplicando...';
+            
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> Filtros Aplicados';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            }, 1000);
+        });
+        
+        // Actualizar estado de paginación
+        document.querySelectorAll('.pagination-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.pagination-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Actualizar selects en tickets
+        document.querySelectorAll('.ticket-card .custom-select select').forEach(select => {
+            select.addEventListener('change', function() {
+                // Aquí iría la lógica para actualizar el ticket
+                console.log('Ticket actualizado:', this.value);
+            });
+        });
+                function redirectToTicket(ticketId) {
+            window.location.href = `detalleticket.html?id=${ticketId}`;
+        }
+    </script>
+</body>
+</html>
