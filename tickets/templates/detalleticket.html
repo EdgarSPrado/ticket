@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Tickets Profesional</title>
+<!-- Tailwind y Font Awesome -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Tom Select CSS + JS -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+  
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="flex h-screen overflow-hidden">
+
+        {% include 'sidebar.html' %}
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+      <!-- Header -->
+<header class="px-6 py-4 border-b shrink-0 flex items-center justify-between">
+  <!-- Izquierda: Título y total de tickets -->
+  <div class="flex items-center gap-6">
+
+    <span class="text-sm text-gray-500">Total de tickets: <strong>45</strong></span>
+  </div>
+
+  <!-- Derecha: Buscador, notificaciones, +Nuevo, perfil -->
+  <div class="flex items-center gap-4">
+    
+    <!-- Buscador -->
+    <div class="relative group">
+      <button onclick="document.getElementById('searchInput').classList.toggle('w-48')" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-search"></i>
+      </button>
+      <input id="searchInput" type="text" placeholder="Buscar..." 
+             class="absolute right-0 w-0 group-hover:w-48 transition-all duration-300 overflow-hidden px-3 py-1 bg-white border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:w-48"/>
+    </div>
+
+    <!-- Notificaciones -->
+    <button class="relative text-gray-500 hover:text-gray-700">
+      <i class="fas fa-bell text-lg"></i>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+    </button>
+
+    <!-- Dropdown "+ Nuevo" -->
+<div class="relative">
+  <button id="nuevoBtn"
+          class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all">
+    <i class="fas fa-plus text-gray-500"></i> Nuevo
+    <i class="fas fa-chevron-down text-xs ml-1"></i>
+  </button>
+
+  <div id="nuevoMenu"
+       class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 py-1 origin-top-right transition-all duration-200 transform scale-95 opacity-0">
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ticket</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Correo electrónico</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Contacto</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Empresa</a>
+  </div>
+</div>
+
+    <!-- Perfil -->
+    <div class="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center text-sm font-semibold text-white hover:ring-2 hover:ring-blue-500 cursor-pointer">
+      <i class="fas fa-user"></i>
+    </div>
+
+  </div>
+</header>
+<!-- Línea divisora entre headers -->
+<div class="border-t border-gray-200 w-full my-1"></div>
+
+<!-- HEADER 2 - Detalle de Ticket -->
+<div class="flex justify-between items-center flex-wrap gap-4 px-6 py-3 border-b bg-white">
+
+  <!-- Izquierda: Estrella + Acciones -->
+  <div class="flex flex-wrap items-center gap-2">
+    <!-- Estrella -->
+    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-yellow-100 transition" title="Marcar como favorito">
+      <i class="far fa-star text-yellow-400 text-sm"></i>
+    </button>
+
+    <!-- Botones de acción con iconos -->
+    <button class="flex items-center gap-1 text-gray-700 text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 transition">
+      <i class="fas fa-reply text-xs"></i> Responder
+    </button>
+    <button class="flex items-center gap-1 text-gray-700 text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 transition">
+      <i class="fas fa-comment-medical text-xs"></i> Añadir Nota
+    </button>
+    <button class="flex items-center gap-1 text-gray-700 text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 transition">
+      <i class="fas fa-paper-plane text-xs"></i> Reenviar
+    </button>
+    <button class="flex items-center gap-1 text-red-500 text-sm px-3 py-1 rounded border border-red-300 hover:bg-red-50 transition">
+      <i class="fas fa-times-circle text-xs"></i> Cerrar
+    </button>
+    <button class="flex items-center gap-1 text-gray-700 text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 transition">
+      <i class="fas fa-object-group text-xs"></i> Fusionar
+    </button>
+    <button class="flex items-center gap-1 text-gray-700 text-sm px-3 py-1 rounded border border-gray-300 hover:bg-gray-50 transition">
+      <i class="fas fa-trash-alt text-xs"></i> Eliminar
+    </button>
+
+    <!-- Dropdown -->
+    <div class="relative">
+      <button onclick="toggleDropdown(this)" class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-50">
+        <i class="fas fa-ellipsis-h text-gray-600 text-sm"></i>
+      </button>
+      <ul class="dropdown hidden absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-md z-50 text-sm text-gray-700">
+        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Ejecutar situaciones</li>
+        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Registrar tiempo</li>
+        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Editar detalles del ticket</li>
+        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Imprimir</li>
+        <li class="px-4 py-2 hover:bg-gray-100 text-red-500 cursor-pointer">Elemento no deseado</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Derecha: Mostrar actividades y navegación -->
+  <div class="flex items-center gap-2">
+    <button class="flex items-center gap-1 text-sm px-3 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition">
+      <i class="fas fa-clock text-xs"></i> Mostrar Actividades
+    </button>
+    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-50 transition" title="Ticket anterior">
+      <i class="fas fa-chevron-left text-xs text-gray-600"></i>
+    </button>
+    <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-50 transition" title="Siguiente ticket">
+      <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+    </button>
+  </div>
+</div>
+
+      <!-- Layout principal -->
+      <div class="flex-1 overflow-y-auto px-6 py-4">
+        <div class="flex flex-col lg:flex-row gap-6 h-full">
+          
+          <!-- Tickets Section -->
+          {% include 'ticket_detalle.html' %}
+
+          <!-- Filters Section -->
+            {% include 'lateral.html' %}
+
+          {% include 'lateral_detalle.html' %}
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+<script>
+  const btn = document.getElementById('nuevoBtn');
+  const menu = document.getElementById('nuevoMenu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+    setTimeout(() => {
+      menu.classList.toggle('scale-95');
+      menu.classList.toggle('opacity-0');
+    }, 10);
+  });
+
+  // Ocultar si se hace clic fuera
+  window.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+      menu.classList.add('scale-95');
+      menu.classList.add('opacity-0');
+    }
+  });
+</script>
+
+<!-- Script para el dropdown -->
+<script>
+  function toggleDropdown(btn) {
+    const ul = btn.nextElementSibling;
+    document.querySelectorAll('.dropdown').forEach(d => {
+      if (d !== ul) d.classList.add('hidden');
+    });
+    ul.classList.toggle('hidden');
+  }
+
+  document.addEventListener('click', function (e) {
+    const isDropdownButton = e.target.closest('button')?.onclick?.toString().includes('toggleDropdown');
+    if (!isDropdownButton) {
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.add('hidden'));
+    }
+  });
+</script>
+</html>

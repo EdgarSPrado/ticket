@@ -1,0 +1,125 @@
+<!-- Sidebar de Detalles del Ticket -->
+<div class="w-50 flex flex-col">
+  <div class="bg-white rounded-xl shadow-lg h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <div class="p-5 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <h2 class="text-sm font-semibold uppercase text-gray-500">Detalles del ticket</h2>
+        <p class="text-xs text-gray-400">Resuelto a tiempo</p>
+      </div>
+      <p class="text-sm mt-2 text-gray-500">hace 2 horas</p>
+    </div>
+
+    <!-- Contenido -->
+    <div class="flex-1 overflow-y-auto p-5 space-y-6">
+
+      <!-- Etiquetas -->
+      <div>
+        <label class="text-xs font-semibold text-gray-600 block mb-2">Etiquetas</label>
+        <input type="text" placeholder="Agregar etiquetas..."
+               class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" />
+      </div>
+
+      <!-- Tipo defecto -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Tipo defecto</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>(N/A)</option>
+        </select>
+      </div>
+
+      <!-- Severidad -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Severidad</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>--</option>
+        </select>
+      </div>
+
+      <!-- Grupo -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Grupo</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Production Support</option>
+        </select>
+      </div>
+
+      <!-- Agente -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Agente</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Diego Garcia Saenz</option>
+        </select>
+      </div>
+
+      <!-- Área -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Área</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Otros</option>
+        </select>
+      </div>
+
+      <!-- Motivo -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Motivo</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Slits placement</option>
+        </select>
+      </div>
+
+      <!-- Doctor Alpha PS -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Doctor Alpha PS</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>No</option>
+        </select>
+      </div>
+
+      <!-- Team Produ -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Team Produ</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>CALIFORNIA</option>
+        </select>
+      </div>
+
+      <!-- Tipo -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Tipo</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Doctor's request</option>
+        </select>
+      </div>
+
+      <!-- Estado -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Estado</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Resuelto</option>
+        </select>
+      </div>
+
+      <!-- Prioridad -->
+      <div>
+        <label class="text-sm font-medium text-gray-800 block mb-2">Prioridad</label>
+        <select class="w-full px-4 py-2 border border-gray-200 rounded-md text-sm">
+          <option>Alta</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Botón -->
+    <div class="p-4 border-t border-gray-200 bg-white sticky bottom-0 z-10">
+      <button class="w-full py-2 bg-blue-600 text-white text-sm rounded-md font-medium flex items-center justify-center gap-2 hover:bg-blue-700 transition">
+        <i class="fas fa-sync-alt"></i> Actualizar
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />

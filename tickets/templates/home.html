@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Tickets Profesional</title>
+<!-- Tailwind y Font Awesome -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Tom Select CSS + JS -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+  
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="flex h-screen overflow-hidden">
+
+        {% include 'sidebar.html' %}
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+      <!-- Header -->
+<header class="px-6 py-4 border-b shrink-0 flex items-center justify-between">
+  <!-- Izquierda: Título y total de tickets -->
+  <div class="flex items-center gap-6">
+
+    <span class="text-sm text-gray-500">Total de tickets: <strong>45</strong></span>
+  </div>
+
+  <!-- Derecha: Buscador, notificaciones, +Nuevo, perfil -->
+  <div class="flex items-center gap-4">
+    
+    <!-- Buscador -->
+    <div class="relative group">
+      <button onclick="document.getElementById('searchInput').classList.toggle('w-48')" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-search"></i>
+      </button>
+      <input id="searchInput" type="text" placeholder="Buscar..." 
+             class="absolute right-0 w-0 group-hover:w-48 transition-all duration-300 overflow-hidden px-3 py-1 bg-white border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:w-48"/>
+    </div>
+
+    <!-- Notificaciones -->
+    <button class="relative text-gray-500 hover:text-gray-700">
+      <i class="fas fa-bell text-lg"></i>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+    </button>
+
+    <!-- Dropdown "+ Nuevo" -->
+<div class="relative">
+  <button id="nuevoBtn"
+          class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all">
+    <i class="fas fa-plus text-gray-500"></i> Nuevo
+    <i class="fas fa-chevron-down text-xs ml-1"></i>
+  </button>
+
+  <div id="nuevoMenu"
+       class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50 py-1 origin-top-right transition-all duration-200 transform scale-95 opacity-0">
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ticket</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Correo electrónico</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Contacto</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Empresa</a>
+  </div>
+</div>
+
+    <!-- Perfil -->
+    <div class="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center text-sm font-semibold text-white hover:ring-2 hover:ring-blue-500 cursor-pointer">
+      <i class="fas fa-user"></i>
+    </div>
+
+  </div>
+</header>
+<!-- Línea divisora entre headers -->
+<div class="border-t border-gray-200 w-full my-1"></div>
+
+<!-- Header 2 (Sub-header) -->
+<div class="px-6 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 border-b border-gray-200">
+
+  <!-- Sección izquierda -->
+  <div class="flex flex-col sm:flex-row sm:items-center gap-4 flex-wrap">
+
+    <!-- Ordenar por -->
+    <div class="flex items-center gap-2">
+      <label class="text-sm font-medium text-gray-700">Ordenar por:</label>
+      <select class="px-3 py-2 rounded-md border border-gray-300 text-sm bg-white shadow-sm">
+        <option>Fecha de creación</option>
+        <option>Última modificación</option>
+        <option>Prioridad</option>
+        <option>Estado</option>
+      </select>
+    </div>
+
+    <!-- Dirección asc/desc -->
+    <div class="flex items-center gap-2">
+      <label class="text-sm font-medium text-gray-700">Dirección:</label>
+      <div class="flex gap-2">
+        <button class="px-3 py-1.5 rounded-md border border-gray-300 text-sm text-gray-700 bg-white hover:bg-gray-100 shadow-sm">Ascendente</button>
+        <button class="px-3 py-1.5 rounded-md border border-gray-300 text-sm text-gray-700 bg-white hover:bg-gray-100 shadow-sm">Descendente</button>
+      </div>
+    </div>
+
+    <!-- Exportar -->
+    <button class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all">
+      <i class="fas fa-download text-gray-500"></i> Exportar
+    </button>
+
+  </div>
+
+  <!-- Sección derecha -->
+  <div class="flex items-center gap-4 justify-between sm:justify-end w-full sm:w-auto">
+
+    <!-- Paginación -->
+    <div class="flex items-center gap-3 text-sm text-gray-600">
+      <span>1 - 30 de 267</span>
+      <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-blue-500 hover:text-white transition">
+        <i class="fas fa-chevron-left text-sm"></i>
+      </button>
+      <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-blue-500 hover:text-white transition">
+        <i class="fas fa-chevron-right text-sm"></i>
+      </button>
+    </div>
+
+    <!-- Botón filtros -->
+    <button class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all">
+      <i class="fas fa-filter text-gray-500"></i> Filtros (2)
+    </button>
+
+  </div>
+</div>
+
+
+      <!-- Layout principal -->
+      <div class="flex-1 overflow-y-auto px-6 py-4">
+        <div class="flex flex-col lg:flex-row gap-6 h-full">
+          
+          <!-- Tickets Section -->
+          {% include 'ticket.html' %}
+
+          <!-- Filters Section -->
+          {% include 'filtros.html' %}
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+<script>
+  const btn = document.getElementById('nuevoBtn');
+  const menu = document.getElementById('nuevoMenu');
+
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+    setTimeout(() => {
+      menu.classList.toggle('scale-95');
+      menu.classList.toggle('opacity-0');
+    }, 10);
+  });
+
+  // Ocultar si se hace clic fuera
+  window.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+      menu.classList.add('scale-95');
+      menu.classList.add('opacity-0');
+    }
+  });
+</script>
+</html>

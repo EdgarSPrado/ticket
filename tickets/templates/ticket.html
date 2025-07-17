@@ -1,0 +1,144 @@
+<!-- TICKETS SECTION -->
+<div class="flex-1 flex flex-col h-full">
+  <div class="bg-white rounded-xl shadow-md p-5 overflow-y-auto space-y-4 flex-1">
+
+    <!-- Ticket 1 -->
+    <div class="w-full border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition">
+      <div class="flex flex-col lg:flex-row lg:justify-between gap-4">
+        <!-- Usuario -->
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 text-white flex items-center justify-center text-xs font-semibold">MC</div>
+          <a href="{% url 'detalleticket' %}" class="group">
+            <div class="text-sm font-medium text-gray-800 group-hover:underline">María Cortez</div>
+            <div class="text-xs text-gray-500 group-hover:text-blue-600">Creado hace 3 horas</div>
+          </a>
+        </div>
+
+        <!-- Controles -->
+        <div class="flex flex-col gap-1 items-start lg:items-end w-full lg:w-auto text-xs">
+          <!-- Prioridad -->
+          <div class="relative w-full sm:w-44">
+            <button onclick="toggleDropdown(this)" class="w-full px-3 py-1 text-left rounded-md border border-gray-300 bg-white flex justify-between items-center text-xs">
+              <span>Urgente</span>
+              <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+            </button>
+            <ul class="dropdown hidden absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow text-xs">
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Urgente</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Alta</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Media</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Baja</li>
+            </ul>
+          </div>
+
+          <!-- Empleado -->
+          <div class="w-full sm:w-44">
+            <select id="empleado-select-1" class="empleado-select text-xs">
+              <option value="mcortez" selected>María Cortez</option>
+              <option value="jperez">Juan Pérez</option>
+              <option value="arodriguez">Ana Rodríguez</option>
+              <option value="lsalas">Luis Salas</option>
+            </select>
+          </div>
+
+          <!-- Estado -->
+          <div class="relative w-full sm:w-44">
+            <button onclick="toggleDropdown(this)" class="w-full px-3 py-1 text-left rounded-md border border-gray-300 bg-white flex justify-between items-center text-xs">
+              <span>Abierto</span>
+              <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+            </button>
+            <ul class="dropdown hidden absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow text-xs">
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Abierto</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Pendiente</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Resuelto</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Cerrado</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Follow Up</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticket 2 -->
+    <div class="w-full border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition">
+      <div class="flex flex-col lg:flex-row lg:justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 to-green-800 text-white flex items-center justify-center text-xs font-semibold">JP</div>
+          <a href="{% url 'detalleticket' %}" class="group">
+            <div class="text-sm font-medium text-gray-800 group-hover:underline">Juan Pérez</div>
+            <div class="text-xs text-gray-500 group-hover:text-blue-600">Creado hace 1 día</div>
+          </a>
+        </div>
+        <div class="flex flex-col gap-1 items-start lg:items-end w-full lg:w-auto text-xs">
+          <div class="relative w-full sm:w-44">
+            <button onclick="toggleDropdown(this)" class="w-full px-3 py-1 text-left rounded-md border border-gray-300 bg-white flex justify-between items-center text-xs">
+              <span>Media</span>
+              <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+            </button>
+            <ul class="dropdown hidden absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow text-xs">
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Urgente</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Alta</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Media</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Baja</li>
+            </ul>
+          </div>
+
+          <div class="w-full sm:w-44">
+            <select id="empleado-select-2" class="empleado-select text-xs">
+              <option value="mcortez">María Cortez</option>
+              <option value="jperez" selected>Juan Pérez</option>
+              <option value="arodriguez">Ana Rodríguez</option>
+              <option value="lsalas">Luis Salas</option>
+            </select>
+          </div>
+
+          <div class="relative w-full sm:w-44">
+            <button onclick="toggleDropdown(this)" class="w-full px-3 py-1 text-left rounded-md border border-gray-300 bg-white flex justify-between items-center text-xs">
+              <span>Resuelto</span>
+              <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+            </button>
+            <ul class="dropdown hidden absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow text-xs">
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Abierto</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Pendiente</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Resuelto</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Cerrado</li>
+              <li class="px-3 py-1 hover:bg-gray-100 cursor-pointer">Follow Up</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  function toggleDropdown(btn) {
+    const ul = btn.nextElementSibling;
+    document.querySelectorAll('.dropdown').forEach(d => {
+      if (d !== ul) d.classList.add('hidden');
+    });
+    ul.classList.toggle('hidden');
+  }
+
+  document.addEventListener('click', function (e) {
+    const isDropdownButton = e.target.closest('button')?.onclick?.toString().includes('toggleDropdown');
+    if (!isDropdownButton) {
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.add('hidden'));
+    }
+  });
+</script>
+
+<!-- Tom Select -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script>
+  new TomSelect('#empleado-select-1', {
+    create: false,
+    maxItems: 1
+  });
+  new TomSelect('#empleado-select-2', {
+    create: false,
+    maxItems: 1
+  });
+</script>
